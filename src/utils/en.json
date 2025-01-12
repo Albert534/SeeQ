@@ -1,0 +1,27 @@
+{
+	"welcome": "Welcome to SeeQ",
+	"login": {
+		"title": "Login",
+		"email": "Enter Email Address",
+		"password": "Password",
+		"submit": "Log In",
+		"forgot_password": "Forgot Password?",
+		"no_account": "Don't have an account? Sign up here."
+	},
+	"signup": {
+		"title": "Sign Up",
+		"username": "Enter Username",
+		"email": "Enter Email Address",
+		"password": "Password",
+		"confirm_password": "Confirm Password",
+		"submit": "Sign Up",
+		"already_account": "Already have an account? Log in here."
+	},
+	"chat": {
+		"send_message": "Send a message...",
+		"online_users": "Online Users",
+		"logout": "Log Out",
+		"type_here": "Type your message here..."
+	},
+	"lanSelector": "Choose to change your language"
+}
