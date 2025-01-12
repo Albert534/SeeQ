@@ -1,10 +1,28 @@
+import { Home } from 'lucide-react';
 import './App.css';
-import Login from './components/Login';
+import SignUp from './components/auth/SignUp';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import Login from './components/auth/Login';
 
 function App() {
 	return (
 		<>
-			<Login />
+			<BrowserRouter>
+				<Routes>
+					<Route
+						path='/'
+						element={<Home />}
+					></Route>
+					<Route
+						path='/signup'
+						element={<SignUp />}
+					></Route>
+					<Route
+						path='/login'
+						element={<Login />}
+					></Route>
+				</Routes>
+			</BrowserRouter>
 		</>
 	);
 }
