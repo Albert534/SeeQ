@@ -1,17 +1,64 @@
-import React, { useState } from 'react';
+// Login.tsx
+import { handleValidationError } from '../../utils/error';
+import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import { Globe, Mail, LockKeyhole, EyeClosed, Eye } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import LanModal from '../LanModal';
 import { Link } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../state/hooks';
+import { loginUser } from '../../state/slices/loginSlice';
 const Login = () => {
+	const [submit, setSubmit] = useState<boolean>(false);
+	const navigate = useNavigate();
+	const errorMessage = useAppSelector((state) => state.login.error);
+	const [errorMssg, setErrorMssg] = useState<string | null>(null);
+	const [errorEmail, setErrorEmail] = useState<string | null>(null);
+	const dispatch = useAppDispatch();
 	const [isOpen, setOpen] = useState<boolean>(false);
-
 	const { t } = useTranslation();
 	const { i18n } = useTranslation();
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState<string>('');
 	const CloseModal = () => {
 		setOpen(false);
 	};
+
+	const handleSubmit = async (e: React.FormEvent) => {
+		e.preventDefault();
+		const loginData = { email, password };
+		setSubmit(true);
+		// Pass t here when dispatching the action
+		await dispatch(loginUser({ loginData, t, navigate }));
+	};
+
+	//Error Handler
+	useEffect(() => {
+		const error = handleValidationError(password, t);
+		if (submit) {
+			if (password) {
+				if (error) {
+					setErrorMssg(error);
+				} else {
+					setErrorMssg(null);
+				}
+			}
+		}
+	}, [password, t, submit]);
+
+	useEffect(() => {
+		if (submit) {
+			if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+				setErrorEmail(t('login_error.no_email'));
+				return;
+			} else {
+				setErrorEmail('');
+			}
+		}
+	}, [email, t, submit]);
+
 	const [eyeOpen, setEyeOpen] = useState<boolean>(false);
+
 	return (
 		<>
 			<div className='flex justify-center items-center'>
@@ -38,58 +85,92 @@ const Login = () => {
 					<div className='absolute top-20 left-0 right-0 text-center bg-transparent text-2xl'>
 						SeeQ
 					</div>
-
-					<div className='flex items-center border-gray-600 border-[1.5px] rounded-lg p-2 mb-2 bg-input-bg'>
-						<Mail
-							size={15}
-							className='text-gray-600 mr-2 bg-transparent'
-						/>
-						<input
-							type='text'
-							placeholder={t('login.email')}
-							className='outline-none text-[10px] w-56 bg-transparent placeholder-gray-500 py-1'
-						/>
-					</div>
-					<div className='flex items-center border-gray-600 border-[1.5px] rounded-lg p-2 mb-2 bg-input-bg'>
-						<LockKeyhole
-							size={15}
-							className='text-gray-600 mr-2 bg-transparent'
-						/>
-						<input
-							type={`${eyeOpen ? 'text' : 'password'}`}
-							placeholder={t('login.password')}
-							className='outline-none text-[10px] w-56 bg-transparent placeholder-gray-500 py-1'
-						/>
-
+					<form onSubmit={handleSubmit}>
 						<div
-							className='bg-transparent'
-							onClick={() => setEyeOpen(!eyeOpen)}
+							className={`flex items-center ${
+								errorEmail ? 'border-red-500' : 'border-gray-600'
+							} border-[1.5px] rounded-lg p-2 mb-2 bg-input-bg`}
 						>
-							{eyeOpen ? (
-								<Eye
-									className='bg-transparent'
-									size={15}
-								/>
-							) : (
-								<EyeClosed
-									size={15}
-									className='bg-transparent'
-								/>
-							)}
+							<Mail
+								size={15}
+								className='text-gray-600 mr-2 mt-0 bg-transparent'
+							/>
+							<input
+								type='text'
+								name='email'
+								value={email}
+								onChange={(e) => {
+									setEmail(e.target.value);
+								}}
+								required
+								placeholder={t('login.email')}
+								className='outline-none text-[10px] w-56 bg-transparent placeholder-gray-500 py-1'
+							/>
 						</div>
-					</div>
+						{errorEmail && (
+							<p className='text-red-500 text-[10px]'>{errorEmail}</p>
+						)}
+						<div
+							className={`flex items-center ${
+								errorMssg ? 'border-red-500' : 'border-gray-600'
+							} border-[1.5px] rounded-lg p-2 mt-3 bg-input-bg`}
+						>
+							<LockKeyhole
+								size={15}
+								className='text-gray-600 mr-2 bg-transparent'
+							/>
+							<input
+								type={`${eyeOpen ? 'text' : 'password'}`}
+								name='password'
+								value={password}
+								onChange={(e) => {
+									setPassword(e.target.value);
+								}}
+								required
+								placeholder={t('login.password')}
+								className='outline-none text-[10px] w-56 bg-transparent placeholder-gray-500 py-1'
+							/>
 
-					<div className='absolute left-0 right-0 text-center bottom-24'>
-						<button className='bg-primary-main w-56 py-2 rounded-lg text-xs hover:bg-primary-thick'>
-							{t('login.submit', 'Sign Up')}
-						</button>
-					</div>
-					<Link
-						to='/signup'
-						className='absolute left-0 right-0 text-center bottom-16 text-xs z-10 underline text-input-bg'
-					>
-						{t('login.no_account')}
-					</Link>
+							<div
+								className='bg-transparent'
+								onClick={() => setEyeOpen(!eyeOpen)}
+							>
+								{eyeOpen ? (
+									<Eye
+										className='bg-transparent'
+										size={15}
+									/>
+								) : (
+									<EyeClosed
+										size={15}
+										className='bg-transparent'
+									/>
+								)}
+							</div>
+						</div>
+						{errorMssg && (
+							<p className='text-red-500 text-[10px]'>{errorMssg}</p>
+						)}{' '}
+						{errorMessage && (
+							<p className='text-red-500 text-[10px] mt-5 text-center'>
+								{errorMessage}
+							</p>
+						)}
+						<div className='absolute left-0 right-0 text-center bottom-24 '>
+							<button
+								className='bg-primary-main w-56 py-2 rounded-lg text-xs hover:bg-primary-thick'
+								type='submit'
+							>
+								{t('login.submit')}
+							</button>
+						</div>
+						<Link
+							to='/signup'
+							className='absolute left-0 right-0 text-center bottom-16 text-xs z-10 underline text-input-bg'
+						>
+							{t('login.no_account')}
+						</Link>
+					</form>
 				</div>
 			</div>
 		</>

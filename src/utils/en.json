@@ -23,5 +23,19 @@
 		"logout": "Log Out",
 		"type_here": "Type your message here..."
 	},
-	"lanSelector": "Choose to change your language"
+	"lanSelector": "Choose to change your language",
+	"inputError": {
+		"no_email": "You need to enter your email",
+		"password_longer": "Password must be longer than 6 characters",
+		"no_username": "You need to enter username",
+		"no_password": "You need to enter the password",
+		"no_confirm_password": "You need to enter the confirm password",
+		"confirm_password": "Your password are not match please re-enter the password"
+	},
+	"login_error": {
+		"input_error": "Password need to be longer than 6 characters",
+		"email_existed": "Email you enter is already existed",
+		"user_not_found": "Invalid Email or Password!",
+		"no_email": "Email is required in this field"
+	}
 }
