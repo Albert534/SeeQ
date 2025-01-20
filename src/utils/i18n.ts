@@ -2,6 +2,11 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import ENGLISH from './en.json';
 import BURMESE from './Burmese.json';
+
+export const getLocalizedErrorMessage = (errorKey: string) => {
+	const t = i18n.t.bind(i18n); // Get the translation function
+	return t(errorKey);
+};
 i18n
 	.use(initReactI18next) // passes i18n down to react-i18next
 	.init({

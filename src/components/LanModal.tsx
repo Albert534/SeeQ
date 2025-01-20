@@ -2,6 +2,9 @@ import React, { FunctionComponent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { X } from 'lucide-react';
+import { useAppDispatch } from '../state/hooks';
+
+import { resetError } from '../state/slices/loginSlice';
 
 interface LanModalProps {
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -9,6 +12,8 @@ interface LanModalProps {
 
 const LanModal: FunctionComponent<LanModalProps> = ({ setOpen }) => {
 	const { i18n, t } = useTranslation();
+	const dispatch = useAppDispatch();
+
 	//Animations
 	const modalVarient = {
 		hidden: { opacity: 0, y: -50 },
@@ -31,7 +36,8 @@ const LanModal: FunctionComponent<LanModalProps> = ({ setOpen }) => {
 	//Localization
 	const LanSelector = (lan: string) => {
 		console.log(lan);
-		i18n.changeLanguage(lan);
+		i18n.changeLanguage(lan); // Change the language
+		dispatch(resetError());
 	};
 
 	const CloseModal = () => {

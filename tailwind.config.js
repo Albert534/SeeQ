@@ -16,6 +16,7 @@ export default {
 				'primary-pale': '#6B69F6',
 				'primary-thick': '#2826CB',
 				'input-bg': '#3F3F46',
+				'bg-main': '#1e1e1e',
 			},
 		},
 	},
