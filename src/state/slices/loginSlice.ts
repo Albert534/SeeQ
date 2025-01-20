@@ -39,8 +39,13 @@ export const loginUser = createAsyncThunk(
 
 			console.log(response.data);
 			Swal.fire({
-				title: 'Success',
-				text: 'Login Successfull!',
+				title: 'Success!',
+				text: 'Login Successfully!',
+				confirmButtonText: 'Close',
+				background: '#1e1e1e',
+				color: '#1e1e1e',
+
+				confirmButtonColor: '#1e1e1e',
 			});
 
 			navigate('/home');

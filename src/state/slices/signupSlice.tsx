@@ -1,7 +1,11 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { NavigateFunction } from 'react-router-dom';
-import Swal from 'sweetalert2/dist/sweetalert2.js';
+// your-app.js
+import Swal from 'sweetalert2';
+
+// your-app.scss
+
 interface UserInfo {
 	username: string;
 	email: string;
@@ -43,8 +47,11 @@ export const SignUpForm = createAsyncThunk(
 					Swal.fire({
 						title: 'Success!',
 						text: 'Sign Up Successfully!',
+						confirmButtonText: 'Close',
+						background: '#1e1e1e',
+						color: '#1e1e1e',
 
-						confirmButtonText: 'close',
+						confirmButtonColor: '#1e1e1e',
 					});
 				}, 1000);
 

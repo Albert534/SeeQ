@@ -7,3 +7,25 @@
 		@apply text-red-500 text-[10px];
 	}
 }
+
+/* Custom Styles for SweetAlert2 Dark Theme */
+.swal2-popup {
+	background-color: #1e1e1e !important; /* Dark background for the popup */
+	color: #fff !important; /* Text color */
+	border-radius: 10px;
+}
+
+.swal2-content {
+	background-color: #1e1e1e !important; /* Darker background behind text */
+	color: #fff !important;
+	font-size: 10px;
+}
+
+.swal2-title {
+	color: #fff !important; /* Title color */
+}
+
+.swal2-confirm {
+	background-color: #3d3bf3 !important; /* Button color */
+	color: #fff !important;
+}
