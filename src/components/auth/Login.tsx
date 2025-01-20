@@ -8,6 +8,7 @@ import LanModal from '../LanModal';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../state/hooks';
 import { loginUser } from '../../state/slices/loginSlice';
+
 const Login = () => {
 	const [submit, setSubmit] = useState<boolean>(false);
 	const navigate = useNavigate();
@@ -20,15 +21,20 @@ const Login = () => {
 	const { i18n } = useTranslation();
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState<string>('');
+
 	const CloseModal = () => {
 		setOpen(false);
 	};
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
+		if (errorEmail || errorMssg) {
+			return;
+		}
+		// Prevent default form submission behavior
 		const loginData = { email, password };
 		setSubmit(true);
-		// Pass t here when dispatching the action
+
 		await dispatch(loginUser({ loginData, t, navigate }));
 	};
 
@@ -88,7 +94,7 @@ const Login = () => {
 					<form onSubmit={handleSubmit}>
 						<div
 							className={`flex items-center ${
-								errorEmail ? 'border-red-500' : 'border-gray-600'
+								errorEmail && submit ? 'border-red-500' : 'border-gray-600'
 							} border-[1.5px] rounded-lg p-2 mb-2 bg-input-bg`}
 						>
 							<Mail
@@ -107,12 +113,10 @@ const Login = () => {
 								className='outline-none text-[10px] w-56 bg-transparent placeholder-gray-500 py-1'
 							/>
 						</div>
-						{errorEmail && (
-							<p className='text-red-500 text-[10px]'>{errorEmail}</p>
-						)}
+						{submit && <p className='text-red-500 text-[10px]'>{errorEmail}</p>}
 						<div
 							className={`flex items-center ${
-								errorMssg ? 'border-red-500' : 'border-gray-600'
+								errorMssg && submit ? 'border-red-500' : 'border-gray-600'
 							} border-[1.5px] rounded-lg p-2 mt-3 bg-input-bg`}
 						>
 							<LockKeyhole
@@ -148,15 +152,19 @@ const Login = () => {
 								)}
 							</div>
 						</div>
-						{errorMssg && (
-							<p className='text-red-500 text-[10px]'>{errorMssg}</p>
-						)}{' '}
-						{errorMessage && (
-							<p className='text-red-500 text-[10px] mt-5 text-center'>
+						<Link
+							to=''
+							className='absolute right-5 text-[10px] mt-2 underline text-input-bg hover:text-white'
+						>
+							{t('forget_password')}
+						</Link>
+						{submit && <p className='text-red-500 text-[10px]'>{errorMssg}</p>}{' '}
+						{submit && (
+							<p className='text-red-500 text-[10px] mt-10 text-center'>
 								{errorMessage}
 							</p>
 						)}
-						<div className='absolute left-0 right-0 text-center bottom-24 '>
+						<div className='absolute left-0 right-0 text-center bottom-20 '>
 							<button
 								className='bg-primary-main w-56 py-2 rounded-lg text-xs hover:bg-primary-thick'
 								type='submit'
@@ -166,7 +174,7 @@ const Login = () => {
 						</div>
 						<Link
 							to='/signup'
-							className='absolute left-0 right-0 text-center bottom-16 text-xs z-10 underline text-input-bg'
+							className='absolute left-0 right-0 text-center bottom-14 text-xs z-10 underline text-input-bg hover:text-white'
 						>
 							{t('login.no_account')}
 						</Link>

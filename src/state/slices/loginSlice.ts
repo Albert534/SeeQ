@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { NavigateFunction } from 'react-router-dom';
-
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 interface UserInfo {
 	email: string;
 	password: string;
@@ -38,6 +38,11 @@ export const loginUser = createAsyncThunk(
 			);
 
 			console.log(response.data);
+			Swal.fire({
+				title: 'Success',
+				text: 'Login Successfull!',
+			});
+
 			navigate('/home');
 
 			return response.data;
@@ -50,7 +55,7 @@ export const loginUser = createAsyncThunk(
 					);
 				}
 			}
-			return rejectWithValue(t('error.unexpectedError'));
+			return rejectWithValue(t('server_error'));
 		}
 	}
 );
