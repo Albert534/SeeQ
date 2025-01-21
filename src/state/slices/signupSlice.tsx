@@ -43,7 +43,6 @@ export const SignUpForm = createAsyncThunk(
 			.then((response) => {
 				console.log('Signup successful:', signUpData);
 				setTimeout(() => {
-					navigate('/login');
 					Swal.fire({
 						title: 'Success!',
 						text: 'Sign Up Successfully!',
@@ -53,6 +52,7 @@ export const SignUpForm = createAsyncThunk(
 
 						confirmButtonColor: '#1e1e1e',
 					});
+					navigate('/login');
 				}, 1000);
 
 				return response.data;

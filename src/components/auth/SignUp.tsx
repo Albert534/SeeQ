@@ -144,6 +144,7 @@ const SignUp = () => {
 							/>
 						</div>
 						{submit && <p className='error-message mb-1'>{errorEmail}</p>}
+						{submit && <p className='error-message mb-1'>{errorMessage}</p>}
 						<div
 							className={`flex items-center ${
 								errorMsg && submit ? 'border-red-500' : 'border-gray-600'
